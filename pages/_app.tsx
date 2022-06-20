@@ -5,11 +5,11 @@ import { appWithTranslation } from "next-i18next";
 import store from "lib/app/store";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return (
-    <Provider store={store}>
-      <Component {...pageProps} />
-    </Provider>
-  );
+  return <Component {...pageProps} />;
 }
 
 export default appWithTranslation(MyApp);
+
+/* <Provider store={store}> 
+<Component {...pageProps} />
+</Provider>*/

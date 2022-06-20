@@ -82,7 +82,7 @@ const Home: NextPage<any> = () => {
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
         <pointLight position={[-10, -10, -10]} />
 
-        <Model parts={visible} url={blobUrl} />
+        {blobUrl ? <Model parts={visible} url={blobUrl} /> : null}
 
         <OrbitControls
           makeDefault

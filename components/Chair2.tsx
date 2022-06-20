@@ -10,14 +10,13 @@ function Loader() {
 }
 interface Props {
   parts: string[];
-  url?: string;
+  url: string;
 }
 
 export default function Model({ parts = [], url, ...groupProps }: Props) {
-  if (!url) return null;
-
   const gltf = useLoader(GLTFLoader, url);
   const group = useRef<any>();
+
   //@ts-ignore
   const nodes = Object.entries(gltf.nodes).map(([name, node]) => node);
 
