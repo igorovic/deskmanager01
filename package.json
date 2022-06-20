@@ -8,14 +8,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mantine/core": "^4.2.10",
+    "@mantine/hooks": "^4.2.10",
+    "@react-three/drei": "^9.13.2",
+    "@react-three/fiber": "^8.0.27",
     "@reduxjs/toolkit": "^1.8.2",
+    "@types/three": "^0.141.0",
     "daisyui": "^2.15.4",
     "next": "12.1.6",
     "next-i18next": "^11.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "^8.0.2",
-    "sharp": "^0.30.6"
+    "sharp": "^0.30.6",
+    "three": "^0.141.0",
+    "usehooks-ts": "^2.5.4"
   },
   "devDependencies": {
     "@types/node": "18.0.0",

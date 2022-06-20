@@ -2,7 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
 @layer base {
+  body, html, #__next {
+    height: 100%;
+  }
   h1 {
     @apply text-xl;
   }
