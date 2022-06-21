@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Html, useProgress } from "@react-three/drei";
 import { Suspense } from "react";
+import { useStore } from "lib/store";
 //import * as THREE from "three"
 
 function Loader() {
@@ -14,21 +15,19 @@ interface Props {
   url: string;
 }
 
-export default function Model({ parts = [], url, ...groupProps }: Props) {
-  const gltf = useLoader(GLTFLoader, url);
+export default function Model(props: any) {
+  const visible = useStore((state) => state.visibleParts);
+  const blobUrl = useStore((state) => state.gltfBlobUrl);
   const group = useRef<any>();
-  console.debug("gltf", gltf);
 
+  const gltf = useLoader(GLTFLoader, blobUrl);
+  console.debug("gltf", gltf);
   //@ts-ignore
   const nodes = Object.entries(gltf.nodes).map(([name, node]) => node);
 
-  /* .filter(
-    ([name, node]) => node.castShadow
-  ); */
-
   return (
     <Suspense fallback={<Loader />}>
-      <group ref={group} {...groupProps} dispose={null}>
+      <group ref={group} {...props} dispose={null}>
         {nodes.map((node) => {
           //@ts-ignore
           if (!node.isMesh) return null;

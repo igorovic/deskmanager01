@@ -25,6 +25,7 @@ specifiers:
   three: ^0.141.0
   typescript: 4.7.4
   usehooks-ts: ^2.6.0
+  zustand: 4.0.0-rc.1
 
 dependencies:
   '@mantine/core': 4.2.10_xhfutgvcwdxsy6j6cuzjqezt3u
@@ -42,6 +43,7 @@ dependencies:
   sharp: 0.30.6
   three: 0.141.0
   usehooks-ts: 2.6.0_react@18.2.0
+  zustand: 4.0.0-rc.1_react@18.2.0
 
 devDependencies:
   '@types/node': 18.0.0
@@ -3124,6 +3126,14 @@ packages:
       use-isomorphic-layout-effect: 1.1.2_luyos4mouogwq6z3wafb3re4ce
     dev: false
 
+  /use-sync-external-store/1.1.0_react@18.2.0:
+    resolution: {integrity: sha512-SEnieB2FPKEVne66NpXPd1Np4R1lTNKfjuy3XdIoPQKYBAFdzbzSZlSn1KJZUiihQLQC5Znot4SBz1EOTBwQAQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
+
   /use-sync-external-store/1.2.0_react@18.2.0:
     resolution: {integrity: sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==}
     peerDependencies:
@@ -3222,4 +3232,20 @@ packages:
         optional: true
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /zustand/4.0.0-rc.1_react@18.2.0:
+    resolution: {integrity: sha512-qgcs7zLqBdHu0PuT3GW4WCIY5SgXdsv30GQMu9Qpp1BA2aS+sNS8l4x0hWuyEhjXkN+701aGWawhKDv6oWJAcw==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      react: 18.2.0
+      use-sync-external-store: 1.1.0_react@18.2.0
     dev: false
