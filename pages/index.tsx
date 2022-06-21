@@ -17,6 +17,7 @@ const Home: NextPage<any> = () => {
   const [parts, setParts] = useState<string[]>([]);
   const [visible, setVisible] = useState<string[]>([]);
   const sceneRef = useRef<GLTF["scene"] | undefined>();
+  const cameraRef = useRef<THREE.Camera>();
 
   function preventDefaults(ev: Event) {
     ev.preventDefault();
@@ -45,6 +46,10 @@ const Home: NextPage<any> = () => {
       setBlobUrl(blobUrl);
       const loader = new GLTFLoader();
       loader.load(blobUrl, (model) => {
+        if (model.cameras.length > 0) {
+          cameraRef.current = model.cameras[1];
+          console.debug("camera", cameraRef.current);
+        }
         const names = model.scene.children.map((O) => O.uuid);
         sceneRef.current = model.scene;
         setParts(names);
@@ -77,7 +82,11 @@ const Home: NextPage<any> = () => {
           />
         ))}
       </div>
-      <Canvas>
+
+      <Canvas
+        //@ts-ignore
+        camera={cameraRef.current ?? undefined}
+      >
         <ambientLight intensity={0.5} />
         <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
         <pointLight position={[-10, -10, -10]} />
@@ -87,7 +96,7 @@ const Home: NextPage<any> = () => {
         <OrbitControls
           makeDefault
           minPolarAngle={0}
-          maxPolarAngle={Math.PI / 1.75}
+          maxPolarAngle={Math.PI / 1.25}
         />
       </Canvas>
     </>

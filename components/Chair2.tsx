@@ -3,6 +3,7 @@ import { useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Html, useProgress } from "@react-three/drei";
 import { Suspense } from "react";
+//import * as THREE from "three"
 
 function Loader() {
   const { progress } = useProgress();
@@ -16,6 +17,7 @@ interface Props {
 export default function Model({ parts = [], url, ...groupProps }: Props) {
   const gltf = useLoader(GLTFLoader, url);
   const group = useRef<any>();
+  console.debug("gltf", gltf);
 
   //@ts-ignore
   const nodes = Object.entries(gltf.nodes).map(([name, node]) => node);
@@ -24,17 +26,16 @@ export default function Model({ parts = [], url, ...groupProps }: Props) {
     ([name, node]) => node.castShadow
   ); */
 
-  console.debug(nodes);
-  console.debug(gltf.materials);
-
   return (
     <Suspense fallback={<Loader />}>
       <group ref={group} {...groupProps} dispose={null}>
-        {nodes.map((geo) => {
+        {nodes.map((node) => {
+          //@ts-ignore
+          if (!node.isMesh) return null;
           return (
             <primitive
-              key={geo.uuid}
-              object={geo}
+              key={node.uuid}
+              object={node}
               //visible={parts.includes(geo.uuid)}
             />
           );
