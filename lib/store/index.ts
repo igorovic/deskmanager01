@@ -1,31 +1,32 @@
+import { Part } from "types";
 import create from "zustand";
 import { devtools, persist } from "zustand/middleware";
+
 interface State {
   gltfBlobUrl: string;
-  currentCamera: any;
-  cameras: any[];
-  parts: any[];
-  visibleParts: any[];
-  setVisibileParts: (parts: any[]) => void;
+  parts: Part[];
+  hidden: string[];
+  hidePart: (uuid: string) => void;
+  showPart: (uuid: string) => void;
   setGltfBlobUrl: (url: string) => void;
-  setParts: (parts: any[]) => void;
-  selectCamera: (idx: any) => void;
-  setAvailableCameras: (cameras: any[]) => void;
+  setParts: (parts: Part[]) => void;
 }
 
 const useStore = create<State>()(
   devtools((set) => ({
     gltfBlobUrl: "",
-    currentCamera: null,
-    cameras: [],
+    hidden: [],
     parts: [],
-    visibleParts: [],
-    setVisibileParts: (parts: any) => set(() => ({ visibleParts: parts })),
+    setParts: (parts: Part[]) => set((state) => ({ parts })),
+    hidePart: (uuid: string) =>
+      set((state) => {
+        return { hidden: [...state.hidden, uuid] };
+      }),
+    showPart: (uuid: string) =>
+      set((state) => {
+        return { hidden: state.hidden.filter((item) => item !== uuid) };
+      }),
     setGltfBlobUrl: (url: string) => set((state) => ({ gltfBlobUrl: url })),
-    setParts: (parts: any[]) => set((state) => ({ parts })),
-    setAvailableCameras: (cameras: any) => set((state) => ({ cameras })),
-    selectCamera: (idx: any) =>
-      set((state) => ({ currentCamera: state.cameras[idx] })),
   }))
 );
 

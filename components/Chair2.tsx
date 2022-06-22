@@ -16,32 +16,35 @@ interface Props {
 }
 
 export default function Model(props: any) {
-  const visible = useStore((state) => state.visibleParts);
+  const setParts = useStore((state) => state.setParts);
+
   const blobUrl = useStore((state) => state.gltfBlobUrl);
   const group = useRef<any>();
 
   const gltf = useLoader(GLTFLoader, blobUrl);
   console.debug("gltf", gltf);
   //@ts-ignore
-  const nodes = Object.entries(gltf.nodes).map(([name, node]) => node);
+  const nodes = Object.entries(gltf.nodes)
+    .map(([name, node]) => node)
+    //@ts-ignore
+    .filter((node) => node.isMesh);
+  setParts(nodes.map((N) => ({ name: N.name, uuid: N.uuid })));
 
   return (
     <Suspense fallback={<Loader />}>
       <group ref={group} {...props} dispose={null}>
-        {nodes.map((node) => {
-          //@ts-ignore
-          if (!node.isMesh) return null;
-          return (
-            <primitive
-              key={node.uuid}
-              object={node}
-              //visible={parts.includes(geo.uuid)}
-            />
-          );
-        })}
+        {nodes.map((node) => (
+          <HidableMesh key={node.uuid} node={node} />
+        ))}
       </group>
     </Suspense>
   );
 }
+
+function HidableMesh({ node }: any) {
+  const hiddenParts = useStore((state) => state.hidden);
+  return <primitive object={node} visible={!hiddenParts.includes(node.uuid)} />;
+}
+
 //useGLTF.preload("/chair.glb");
 //{Object.entries(gltf.nodes).map(([name, geo]) => {

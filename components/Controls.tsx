@@ -3,49 +3,29 @@ import { Checkbox } from "@mantine/core";
 import { useStore } from "lib/store";
 export default function Controls() {
   const parts = useStore((state) => state.parts);
-  const setVisible = useStore((state) => state.setVisibileParts);
-  const cameras = useStore((state) =>
-    state.cameras.map((C) => ({ label: C.name, value: C.uuid }))
-  );
-  const selectCamera = useStore((state) => state.selectCamera);
-  const currentCamera = useStore((state) => state.currentCamera);
+  const showPart = useStore((state) => state.showPart);
+  const hidePart = useStore((state) => state.hidePart);
+
   return (
-    <div className="grid grid-cols-2">
-      <div>
-        <p>Drop model in the window</p>
+    <div>
+      <p>Drop model in the window</p>
+      <div className="flex flex-shrink-0 flex-wrap gap-2">
         {parts.map((p) => (
           <Checkbox
-            key={p}
-            label={p}
+            key={p.uuid}
+            label={p.name}
             defaultChecked
-            value={p}
+            value={p.uuid}
             onChange={(ev) => {
               console.debug(ev.target.checked);
-              /* setVisible((prev) => {
-                if (ev.target.checked === true) {
-                  return [...prev, ev.target.value];
-                } else {
-                  return prev.filter((nn) => nn !== ev.target.value);
-                }
-              }); */
+              if (ev.target.checked) {
+                showPart(ev.target.value);
+              } else {
+                hidePart(ev.target.value);
+              }
             }}
           />
         ))}
-      </div>
-      <div>
-        <p>current camera .. {currentCamera?.name}</p>
-        <Select
-          label="Camera"
-          data={cameras}
-          onChange={(value) => {
-            if (!!value) {
-              const idx = cameras.findIndex(
-                (element) => element.value === value
-              );
-              selectCamera(idx);
-            }
-          }}
-        />
       </div>
     </div>
   );
